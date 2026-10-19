@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15-Minute Vocabulary Test - Units 15 & 16</title>
+    <!-- Nhúng Google Font Be Vietnam Pro chuyên dụng cho tiếng Việt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-hover: #1d4ed8;
+            --success: #16a34a;
+            --error: #dc2626;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 22px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .sticky-timer {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: #f1f5f9;
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .timer-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .timer-display {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--error);
+        }
+
+        .section-title {
+            background: #eff6ff;
+            color: var(--primary);
+            padding: 10px 15px;
+            border-left: 4px solid var(--primary);
+            font-size: 16px;
+            font-weight: 700;
+            margin: 25px 0 15px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .question-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option-item {
+            margin-bottom: 8px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f1f5f9;
+        }
+
+        .option-label input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-hover);
+        }
+
+        #result-panel {
+            display: none;
+            background: #f0fdf4;
+            border: 2px solid var(--success);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        #result-panel h2 {
+            color: var(--success);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .score-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .correct-bg {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .incorrect-bg {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+
+        .badge-success { background: #dcfce7; color: #15803d; }
+        .badge-error { background: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>15-Minute Vocabulary Test</h1>
+        <p>Units 15 & 16: Fashion & Clothes | Describing People | English Ready Course</p>
+    </div>
+
+    <!-- Sticky Timer -->
+    <div class="sticky-timer">
+        <span class="timer-title">⏱ Thời gian còn lại:</span>
+        <span id="timer" class="timer-display">15:00</span>
+    </div>
+
+    <!-- Score Result Panel -->
+    <div id="result-panel">
+        <h2>🎉 KẾT QUẢ BÀI LÀM</h2>
+        <p>Điểm số của bạn:</p>
+        <div class="score-number" id="score-text">0.0 / 10</div>
+        <p id="feedback-text" style="margin-top: 10px; font-weight: 500;"></p>
+    </div>
+
+    <form id="quiz-form">
+        <!-- PART 1 -->
+        <div class="section-title">PART 1: MULTIPLE CHOICE (5.0 pts - 0.5 pt/question)</div>
+        <div id="part1-container"></div>
+
+        <!-- PART 2 -->
+        <div class="section-title">PART 2: VOCABULARY IN CONTEXT (5.0 pts - 0.5 pt/question)</div>
+        <div id="part2-container"></div>
+
+        <button type="button" class="btn-submit" id="submit-btn" onclick="submitQuiz()">NỘP BÀI KIỂM TRA</button>
+    </form>
+</div>
+
+<script>
+    const questions = [
+        // PART 1
+        {
+            id: 1,
+            part: 1,
+            q: "That black dress is so __________; it never goes out of style even after many years.",
+            options: ["A. ill-fitting", "B. timeless", "C. plain", "D. checked"],
+            correct: 1,
+            exp: "timeless (không lỗi mốt / vượt thời gian). (ill-fitting: không vừa; plain: trơn; checked: kẻ caro)."
+        },
+        {
+            id: 2,
+            part: 1,
+            q: "You can __________ different tops and bottoms to create a fresh look every day.",
+            options: ["A. mix and match", "B. keep up with", "C. lean toward", "D. dress up"],
+            correct: 0,
+            exp: "Cụm từ 'mix and match' nghĩa là phối đồ linh hoạt."
+        },
+        {
+            id: 3,
+            part: 1,
+            q: "This jacket is made of soft __________, making it both stylish and durable.",
+            options: ["A. silk", "B. wool", "C. leather", "D. cotton"],
+            correct: 2,
+            exp: "leather (da thuộc) nổi tiếng vừa thời trang vừa bền bỉ (durable)."
+        },
+        {
+            id: 4,
+            part: 1,
+            q: "She added a beautiful gold __________ and matching earrings to finish her outfit.",
+            options: ["A. scarf", "B. necklace", "C. beret", "D. pattern"],
+            correct: 1,
+            exp: "necklace (vòng cổ) thường đi kèm với earrings (hoa tai)."
+        },
+        {
+            id: 5,
+            part: 1,
+            q: "On weekends, I prefer wearing __________ clothes like T-shirts and jeans because they are comfortable.",
+            options: ["A. formal", "B. casual", "C. traditional", "D. ill-fitting"],
+            correct: 1,
+            exp: "casual clothes (quần áo thường ngày, thoải mái)."
+        },
+        {
+            id: 6,
+            part: 1,
+            q: "My brother is very __________; he sets high goals for his career and works tirelessly to achieve them.",
+            options: ["A. ambitious", "B. pessimistic", "C. shy", "D. witty"],
+            correct: 0,
+            exp: "ambitious (mơ ước lớn, nhiều hoài bão)."
+        },
+        {
+            id: 7,
+            part: 1,
+            q: "Dedicated teachers can have a strong __________ on their students' future choices.",
+            options: ["A. impression", "B. influence", "C. attitude", "D. experience"],
+            correct: 1,
+            exp: "Cấu trúc 'have a strong influence on sb' (có ảnh hưởng lớn tới ai)."
+        },
+        {
+            id: 8,
+            part: 1,
+            q: "She is a very __________ person who always looks on the bright side of every situation.",
+            options: ["A. pessimistic", "B. shy", "C. optimistic", "D. quiet"],
+            correct: 2,
+            exp: "optimistic (lạc quan), luôn nhìn vào mặt tích cực (bright side)."
+        },
+        {
+            id: 9,
+            part: 1,
+            q: "I really __________ my mentor because she always works hard and never gives up.",
+            options: ["A. look up to", "B. console", "C. devote", "D. spoil"],
+            correct: 0,
+            exp: "Cụm động từ 'look up to sb' có nghĩa là kính trọng / ngưỡng mộ ai."
+        },
+        {
+            id: 10,
+            part: 1,
+            q: "Peter is extremely __________; you can always trust him to help whenever you are in trouble.",
+            options: ["A. reliable", "B. witty", "C. confident", "D. polite"],
+            correct: 0,
+            exp: "reliable (đáng tin cậy)."
+        },
+
+        // PART 2
+        {
+            id: 11,
+            part: 2,
+            q: "Jeans are a very __________ item because you can wear them to school or to a casual party.",
+            options: ["A. versatile", "B. fashionista", "C. boutique", "D. elegant"],
+            correct: 0,
+            exp: "versatile (đa năng, dễ kết hợp trong nhiều hoàn cảnh)."
+        },
+        {
+            id: 12,
+            part: 2,
+            q: "Lisa is a real __________ who always updates her closet with the latest fashion trends.",
+            options: ["A. fashionista", "B. boutique", "C. elegant", "D. versatile"],
+            correct: 0,
+            exp: "fashionista (tín đồ thời trang)."
+        },
+        {
+            id: 13,
+            part: 2,
+            q: "She looked very __________ in her simple white silk dress at the dinner party.",
+            options: ["A. elegant", "B. versatile", "C. boutique", "D. fashionista"],
+            correct: 0,
+            exp: "elegant (thanh lịch, trang nhã)."
+        },
+        {
+            id: 14,
+            part: 2,
+            q: "A classic white shirt is a __________ piece in everyone's wardrobe.",
+            options: ["A. must-have", "B. versatile", "C. boutique", "D. elegant"],
+            correct: 0,
+            exp: "must-have (món đồ bắt buộc phải có trong tủ đồ)."
+        },
+        {
+            id: 15,
+            part: 2,
+            q: "I bought this unique handmade coat at a small __________ near my house.",
+            options: ["A. boutique", "B. fashionista", "C. versatile", "D. elegant"],
+            correct: 0,
+            exp: "boutique (cửa hàng quần áo nhỏ, độc đáo)."
+        },
+        {
+            id: 16,
+            part: 2,
+            q: "She was __________ to pass the final exam despite facing many difficulties.",
+            options: ["A. determined", "B. dedicated", "C. inspire", "D. impression"],
+            correct: 0,
+            exp: "determined (quyết tâm)."
+        },
+        {
+            id: 17,
+            part: 2,
+            q: "My teacher always tries to __________ us to work hard and be kind to others.",
+            options: ["A. inspire", "B. dedicated", "C. determined", "D. work ethic"],
+            correct: 0,
+            exp: "inspire (truyền cảm hứng)."
+        },
+        {
+            id: 18,
+            part: 2,
+            q: "Mr. Long is a __________ teacher who has spent over 15 years helping his students succeed.",
+            options: ["A. dedicated", "B. determined", "C. inspire", "D. impression"],
+            correct: 0,
+            exp: "dedicated (tận tụy, cống hiến)."
+        },
+        {
+            id: 19,
+            part: 2,
+            q: "His strong __________ and kindness left a deep mark on all of us.",
+            options: ["A. work ethic", "B. impression", "C. dedicated", "D. inspire"],
+            correct: 0,
+            exp: "work ethic (đạo đức nghề nghiệp / tinh thần làm việc)."
+        },
+        {
+            id: 20,
+            part: 2,
+            q: "The candidate made a great __________ on the interviewers with his confident answers.",
+            options: ["A. impression", "B. work ethic", "C. inspire", "D. dedicated"],
+            correct: 0,
+            exp: "Cấu trúc 'make a great/good impression on sb' (tạo ấn tượng tốt với ai)."
+        }
+    ];
+
+    let timeInSeconds = 15 * 60;
+    let timerInterval = null;
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeInSeconds--;
+            let mins = Math.floor(timeInSeconds / 60);
+            let secs = timeInSeconds % 60;
+            document.getElementById('timer').innerText = 
+                `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+            if (timeInSeconds <= 0) {
+                clearInterval(timerInterval);
+                alert("⏰ Đã hết thời gian 15 phút! Hệ thống sẽ tự động nộp bài.");
+                submitQuiz();
+            }
+        }, 1000);
+    }
+
+    function renderQuiz() {
+        const p1 = document.getElementById('part1-container');
+        const p2 = document.getElementById('part2-container');
+
+        questions.forEach((item) => {
+            let html = `
+                <div class="question-card" id="card-q${item.id}">
+                    <div class="question-title">Câu ${item.id}: ${item.q}</div>
+                    <ul class="options-list">
+            `;
+            item.options.forEach((opt, optIdx) => {
+                html += `
+                    <li class="option-item">
+                        <label class="option-label">
+                            <input type="radio" name="q${item.id}" value="${optIdx}">
+                            ${opt}
+                        </label>
+                    </li>
+                `;
+            });
+            html += `
+                    </ul>
+                    <div class="explanation-box" id="exp-q${item.id}"></div>
+                </div>
+            `;
+
+            if (item.part === 1) p1.innerHTML += html;
+            else p2.innerHTML += html;
+        });
+    }
+
+    function submitQuiz() {
+        clearInterval(timerInterval);
+
+        let totalScore = 0;
+        let correctCount = 0;
+
+        document.querySelectorAll('input').forEach(i => i.disabled = true);
+        document.getElementById('submit-btn').style.display = 'none';
+
+        questions.forEach(item => {
+            const selected = document.querySelector(`input[name="q${item.id}"]:checked`);
+            const expBox = document.getElementById(`exp-q${item.id}`);
+            expBox.style.display = 'block';
+
+            if (selected && parseInt(selected.value) === item.correct) {
+                totalScore += 0.5;
+                correctCount++;
+                expBox.className = 'explanation-box correct-bg';
+                expBox.innerHTML = `<span class="badge badge-success">✓ ĐÚNG (+0.5đ)</span><br><strong>Giải thích:</strong> ${item.exp}`;
+            } else {
+                expBox.className = 'explanation-box incorrect-bg';
+                let userAnsText = selected ? item.options[parseInt(selected.value)] : "Chưa chọn";
+                expBox.innerHTML = `
+                    <span class="badge badge-error">✗ SAI (0đ)</span><br>
+                    <strong>Bạn chọn:</strong> ${userAnsText}<br>
+                    <strong>Đáp án đúng:</strong> ${item.options[item.correct]}<br>
+                    <strong>Giải thích:</strong> ${item.exp}
+                `;
+            }
+        });
+
+        const resultPanel = document.getElementById('result-panel');
+        resultPanel.style.display = 'block';
+        document.getElementById('score-text').innerText = `${totalScore.toFixed(1)} / 10.0`;
+
+        let feedback = "";
+        if (totalScore >= 8.5) feedback = "🌟 Xuất sắc! Bạn đã thuộc rất vững từ vựng Units 15 & 16.";
+        else if (totalScore >= 6.5) feedback = "👍 Khá tốt! Hãy ôn lại các từ vựng chưa đúng để hoàn thiện hơn.";
+        else feedback = "📚 Cần cố gắng hơn! Hãy xem lại các giải thích chi tiết để học thêm từ mới nhé.";
+
+        document.getElementById('feedback-text').innerText = `${feedback} (Đúng ${correctCount}/20 câu)`;
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.onload = function() {
+        renderQuiz();
+        startTimer();
+    };
+</script>
+
+</body>
+</html>
